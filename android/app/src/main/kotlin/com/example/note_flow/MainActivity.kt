@@ -1,4 +1,4 @@
-package com.example.note_flow
+package com.mateuszkasprzak.note_flow
 
 import io.flutter.embedding.android.FlutterActivity
 
