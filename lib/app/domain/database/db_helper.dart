@@ -4,21 +4,21 @@ import 'package:path/path.dart';
 
 class DBHelper {
   static const int _version = 1;
-  static const String _dbName = 'Notes.db';
+  static const String _dbName = 'Notes';
 
-  static Future<Database> _getDB() async {
+  Future<Database> _getDB() async {
     return openDatabase(
       join(await getDatabasesPath(), _dbName),
       version: _version,
       onCreate: (db, version) async {
         await db.execute(
-          "CREATE TABLE Note(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT NOT NULL, date TEXT NOT NULL)",
+          "CREATE TABLE Note(id INTEGER PRIMARY KEY, title TEXT NOT NULL, description TEXT NOT NULL);",
         );
       },
     );
   }
 
-  static Future<int> addNote(NoteModel noteModel) async {
+  Future<int> addNote(NoteModel noteModel) async {
     final db = await _getDB();
     return await db.insert(
       "Note",
@@ -27,7 +27,7 @@ class DBHelper {
     );
   }
 
-  static Future<int> updateNote(NoteModel noteModel) async {
+  Future<int> updateNote(NoteModel noteModel) async {
     final db = await _getDB();
     return await db.update(
       "Note",
@@ -38,7 +38,7 @@ class DBHelper {
     );
   }
 
-  static Future<int> deleteNote(NoteModel noteModel) async {
+  Future<int> deleteNote(NoteModel noteModel) async {
     final db = await _getDB();
     return await db.delete(
       "Note",
@@ -47,12 +47,12 @@ class DBHelper {
     );
   }
 
-  static Future<List<NoteModel>?> getAllNote() async {
+  Future<List<NoteModel>> getAllNotes() async {
     final db = await _getDB();
     final List<Map<String, dynamic>> maps = await db.query("Note");
 
     if (maps.isEmpty) {
-      return null;
+      return [];
     }
 
     return List.generate(

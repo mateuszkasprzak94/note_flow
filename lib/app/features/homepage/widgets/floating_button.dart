@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_flow/app/core/constant.dart';
+import 'package:note_flow/app/features/add_note/add_note_page.dart';
 
 class FloatingButton extends StatelessWidget {
   const FloatingButton({
@@ -21,8 +22,14 @@ class FloatingButton extends StatelessWidget {
       ),
       child: FloatingActionButton(
         shape: const CircleBorder(),
-        backgroundColor: kFloating,
-        onPressed: () {},
+        backgroundColor: kPrimaryButton,
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => const AddNotePage(),
+            ),
+          );
+        },
         child: const Icon(
           Icons.add,
           color: Colors.white,
