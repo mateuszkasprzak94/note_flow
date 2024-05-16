@@ -14,7 +14,7 @@ class FloatingButton extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.white,
+            color: kPrimaryButton,
             blurRadius: 1,
             offset: Offset(0, 1),
           ),

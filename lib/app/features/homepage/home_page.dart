@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
             if (state.status == Status.loading) {
               return const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.purple,
+                  color: kPrimaryIcon,
                 ),
               );
             }
@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.note_add,
-                      color: Color(0xFFFBEEDE),
+                      color: kPrimaryIcon,
                       size: 50,
                     ),
                     SizedBox(height: 15),

@@ -19,3 +19,4 @@ const kGradient = [
 ];
 
 const kPrimaryButton = Color(0xFF998F83);
+const kPrimaryIcon = Color(0xFFFBEEDE);

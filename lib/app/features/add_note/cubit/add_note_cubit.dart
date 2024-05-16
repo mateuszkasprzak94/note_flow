@@ -13,40 +13,6 @@ class AddNoteCubit extends Cubit<AddNoteState> {
 
   final DBHelper dbHelper;
 
-  Future<void> add(NoteModel noteModel) async {
-    try {
-      await dbHelper.addNote(noteModel);
-      emit(
-        AddNoteState(
-          status: Status.success,
-        ),
-      );
-    } catch (error) {
-      emit(
-        AddNoteState(
-          status: Status.error,
-          errorMessage: error.toString(),
-        ),
-      );
-    }
-  }
-
-  Future<void> update(NoteModel noteModel) async {
-    try {
-      await dbHelper.updateNote(noteModel);
-      emit(
-        AddNoteState(status: Status.success),
-      );
-    } catch (error) {
-      emit(
-        AddNoteState(
-          status: Status.error,
-          errorMessage: error.toString(),
-        ),
-      );
-    }
-  }
-
   Future<void> addOrUpdate(NoteModel noteModel) async {
     try {
       if (noteModel.id == null) {
