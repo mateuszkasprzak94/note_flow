@@ -62,4 +62,9 @@ class DBHelper {
       ),
     );
   }
+
+  Future<void> close() async {
+    final db = await _getDB();
+    return db.close();
+  }
 }

@@ -12,9 +12,10 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeCubit(dbHelper: DBHelper())..start(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
           useMaterial3: true,
         ),
         home: const HomePage(),
