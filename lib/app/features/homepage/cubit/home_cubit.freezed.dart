@@ -16,6 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HomeState {
+  List<NoteModel> get pinnedNotes => throw _privateConstructorUsedError;
+  List<NoteModel> get otherNotes => throw _privateConstructorUsedError;
   List<NoteModel> get items => throw _privateConstructorUsedError;
   dynamic get status => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
@@ -30,7 +32,12 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({List<NoteModel> items, dynamic status, String? errorMessage});
+  $Res call(
+      {List<NoteModel> pinnedNotes,
+      List<NoteModel> otherNotes,
+      List<NoteModel> items,
+      dynamic status,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -46,11 +53,21 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? pinnedNotes = null,
+    Object? otherNotes = null,
     Object? items = null,
     Object? status = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
+      pinnedNotes: null == pinnedNotes
+          ? _value.pinnedNotes
+          : pinnedNotes // ignore: cast_nullable_to_non_nullable
+              as List<NoteModel>,
+      otherNotes: null == otherNotes
+          ? _value.otherNotes
+          : otherNotes // ignore: cast_nullable_to_non_nullable
+              as List<NoteModel>,
       items: null == items
           ? _value.items
           : items // ignore: cast_nullable_to_non_nullable
@@ -75,7 +92,12 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<NoteModel> items, dynamic status, String? errorMessage});
+  $Res call(
+      {List<NoteModel> pinnedNotes,
+      List<NoteModel> otherNotes,
+      List<NoteModel> items,
+      dynamic status,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -89,11 +111,21 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? pinnedNotes = null,
+    Object? otherNotes = null,
     Object? items = null,
     Object? status = freezed,
     Object? errorMessage = freezed,
   }) {
     return _then(_$HomeStateImpl(
+      pinnedNotes: null == pinnedNotes
+          ? _value._pinnedNotes
+          : pinnedNotes // ignore: cast_nullable_to_non_nullable
+              as List<NoteModel>,
+      otherNotes: null == otherNotes
+          ? _value._otherNotes
+          : otherNotes // ignore: cast_nullable_to_non_nullable
+              as List<NoteModel>,
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -111,10 +143,32 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 
 class _$HomeStateImpl implements _HomeState {
   _$HomeStateImpl(
-      {final List<NoteModel> items = const [],
+      {final List<NoteModel> pinnedNotes = const [],
+      final List<NoteModel> otherNotes = const [],
+      final List<NoteModel> items = const [],
       this.status = Status.initial,
       this.errorMessage})
-      : _items = items;
+      : _pinnedNotes = pinnedNotes,
+        _otherNotes = otherNotes,
+        _items = items;
+
+  final List<NoteModel> _pinnedNotes;
+  @override
+  @JsonKey()
+  List<NoteModel> get pinnedNotes {
+    if (_pinnedNotes is EqualUnmodifiableListView) return _pinnedNotes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_pinnedNotes);
+  }
+
+  final List<NoteModel> _otherNotes;
+  @override
+  @JsonKey()
+  List<NoteModel> get otherNotes {
+    if (_otherNotes is EqualUnmodifiableListView) return _otherNotes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_otherNotes);
+  }
 
   final List<NoteModel> _items;
   @override
@@ -133,7 +187,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(items: $items, status: $status, errorMessage: $errorMessage)';
+    return 'HomeState(pinnedNotes: $pinnedNotes, otherNotes: $otherNotes, items: $items, status: $status, errorMessage: $errorMessage)';
   }
 
   @override
@@ -141,6 +195,10 @@ class _$HomeStateImpl implements _HomeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeStateImpl &&
+            const DeepCollectionEquality()
+                .equals(other._pinnedNotes, _pinnedNotes) &&
+            const DeepCollectionEquality()
+                .equals(other._otherNotes, _otherNotes) &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             const DeepCollectionEquality().equals(other.status, status) &&
             (identical(other.errorMessage, errorMessage) ||
@@ -150,6 +208,8 @@ class _$HomeStateImpl implements _HomeState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(_pinnedNotes),
+      const DeepCollectionEquality().hash(_otherNotes),
       const DeepCollectionEquality().hash(_items),
       const DeepCollectionEquality().hash(status),
       errorMessage);
@@ -163,10 +223,16 @@ class _$HomeStateImpl implements _HomeState {
 
 abstract class _HomeState implements HomeState {
   factory _HomeState(
-      {final List<NoteModel> items,
+      {final List<NoteModel> pinnedNotes,
+      final List<NoteModel> otherNotes,
+      final List<NoteModel> items,
       final dynamic status,
       final String? errorMessage}) = _$HomeStateImpl;
 
+  @override
+  List<NoteModel> get pinnedNotes;
+  @override
+  List<NoteModel> get otherNotes;
   @override
   List<NoteModel> get items;
   @override

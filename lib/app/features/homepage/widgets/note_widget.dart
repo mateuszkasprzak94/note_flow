@@ -6,11 +6,11 @@ class NoteWidget extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback onLongPress;
   const NoteWidget({
-    Key? key,
+    super.key,
     required this.noteModel,
     required this.onTap,
     required this.onLongPress,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

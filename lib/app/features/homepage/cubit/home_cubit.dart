@@ -22,9 +22,13 @@ class HomeCubit extends Cubit<HomeState> {
     );
     try {
       final results = await dbHelper.getAllNotes();
+      final pinnedNotes = results.where((note) => note.pinned == 1).toList();
+      final otherNotes = results.where((note) => note.pinned == 0).toList();
       emit(
         HomeState(
           items: results,
+          pinnedNotes: pinnedNotes,
+          otherNotes: otherNotes,
           status: Status.success,
           errorMessage: '',
         ),
@@ -44,9 +48,15 @@ class HomeCubit extends Cubit<HomeState> {
       await dbHelper.deleteNote(noteModel);
       final updatedNotes =
           state.items.where((note) => note.id != noteModel.id).toList();
+      final pinnedNotes =
+          updatedNotes.where((note) => note.pinned == 1).toList();
+      final otherNotes =
+          updatedNotes.where((note) => note.pinned == 0).toList();
       emit(
         state.copyWith(
           items: updatedNotes,
+          pinnedNotes: pinnedNotes,
+          otherNotes: otherNotes,
           status: Status.success,
         ),
       );

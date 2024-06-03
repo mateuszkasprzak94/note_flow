@@ -36,6 +36,8 @@ class HomePage extends StatelessWidget {
         ),
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
+            final pinnedNotes = state.pinnedNotes;
+            final otherNotes = state.otherNotes;
             final notes = state.items;
             final errorMessage = state.errorMessage ?? 'Unknown error';
             if (state.status == Status.error) {
@@ -76,45 +78,113 @@ class HomePage extends StatelessWidget {
             }
 
             if (state.status == Status.success) {
-              return ListView.builder(
-                itemCount: notes.length,
-                itemBuilder: (context, index) => NoteWidget(
-                  noteModel: notes[index],
-                  onTap: () async {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => AddNotePage(
-                          noteModel: notes[index],
+              return ListView(
+                children: [
+                  if (pinnedNotes.isNotEmpty)
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                      child: Text(
+                        'Pinned',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    );
-                  },
-                  onLongPress: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text(
-                              'Are you sure you want to delete this note?'),
-                          actions: [
-                            ElevatedButton(
-                              onPressed: () async {
-                                context.read<HomeCubit>().delete(notes[index]);
-
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Yes'),
+                    ),
+                  ...pinnedNotes.map(
+                    (note) => NoteWidget(
+                      noteModel: note,
+                      onTap: () async {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AddNotePage(
+                              noteModel: note,
                             ),
-                            ElevatedButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('No'),
-                            ),
-                          ],
+                          ),
                         );
                       },
-                    );
-                  },
-                ),
+                      onLongPress: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text(
+                                  'Are you sure you want to delete this note?'),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    context.read<HomeCubit>().delete(note);
+
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Yes'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('No'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  if (otherNotes.isNotEmpty)
+                    const Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                      child: Text(
+                        'Others',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ...otherNotes.map(
+                    (note) => NoteWidget(
+                      noteModel: note,
+                      onTap: () async {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AddNotePage(
+                              noteModel: note,
+                            ),
+                          ),
+                        );
+                      },
+                      onLongPress: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text(
+                                  'Are you sure you want to delete this note?'),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    context.read<HomeCubit>().delete(note);
+
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Yes'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('No'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
               );
             }
             return const SizedBox.shrink();

@@ -22,6 +22,7 @@ class AddNotePage extends StatefulWidget {
 class _AddNotePageState extends State<AddNotePage> {
   late final TextEditingController titleController;
   late final TextEditingController descriptionController;
+  bool isPinned = false;
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _AddNotePageState extends State<AddNotePage> {
     if (widget.noteModel != null) {
       titleController.text = widget.noteModel!.title;
       descriptionController.text = widget.noteModel!.description;
+      isPinned = widget.noteModel!.pinned == 1;
     }
   }
 
@@ -84,6 +86,19 @@ class _AddNotePageState extends State<AddNotePage> {
                     color: Colors.white,
                   ),
                 ),
+                actions: [
+                  IconButton(
+                    icon: Icon(
+                      isPinned ? Icons.push_pin : Icons.push_pin_outlined,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        isPinned = !isPinned;
+                      });
+                    },
+                  ),
+                ],
               ),
               body: Container(
                 decoration: const BoxDecoration(
@@ -200,15 +215,16 @@ class _AddNotePageState extends State<AddNotePage> {
                                 id: widget.noteModel?.id,
                                 title: title,
                                 description: description,
+                                pinned: isPinned ? 1 : 0,
                               );
 
                               context.read<AddNoteCubit>().addOrUpdate(model);
                             },
                             style: const ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(
+                              backgroundColor: WidgetStatePropertyAll(
                                 kPrimaryButton,
                               ),
-                              shape: MaterialStatePropertyAll(
+                              shape: WidgetStatePropertyAll(
                                 RoundedRectangleBorder(
                                   side: BorderSide(
                                     color: Colors.white,
