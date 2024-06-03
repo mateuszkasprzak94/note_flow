@@ -14,15 +14,16 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         title: const Text(
           'Notes',
           style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30),
+              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30),
         ),
         centerTitle: true,
+        shadowColor: Colors.black,
+        elevation: 10,
       ),
       floatingActionButton: const FloatingButton(),
       body: Container(

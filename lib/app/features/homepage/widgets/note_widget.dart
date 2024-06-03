@@ -17,36 +17,34 @@ class NoteWidget extends StatelessWidget {
     return InkWell(
       onLongPress: onLongPress,
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6),
-        child: Card(
-          elevation: 2,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.center,
+      child: Card(
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     noteModel.title,
                     style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                  child: Divider(
-                    thickness: 1,
-                  ),
-                ),
-                Text(
-                  noteModel.description,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
+              ),
+              Text(
+                noteModel.description,
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                maxLines: 10,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
         ),
       ),
