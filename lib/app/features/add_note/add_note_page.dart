@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:note_flow/app/core/constant.dart';
 import 'package:note_flow/app/core/enums.dart';
 import 'package:note_flow/app/domain/database/db_helper.dart';
 import 'package:note_flow/app/domain/models/note_model.dart';
 import 'package:note_flow/app/features/add_note/cubit/add_note_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note_flow/app/features/add_note/widgets/note_textfield.widget.dart';
+import 'package:note_flow/app/features/add_note/widgets/save_task_button_widget.dart';
+import 'package:note_flow/app/features/add_note/widgets/title_textfield_widget.dart';
+import 'package:note_flow/app/features/add_note/widgets/title_widget.dart';
 import 'package:note_flow/app/features/homepage/cubit/home_cubit.dart';
 
 class AddNotePage extends StatefulWidget {
@@ -23,6 +28,7 @@ class _AddNotePageState extends State<AddNotePage> {
   late final TextEditingController titleController;
   late final TextEditingController descriptionController;
   bool isPinned = false;
+  Color noteColor = Colors.white;
 
   @override
   void initState() {
@@ -31,9 +37,10 @@ class _AddNotePageState extends State<AddNotePage> {
     descriptionController = TextEditingController();
 
     if (widget.noteModel != null) {
-      titleController.text = widget.noteModel!.title;
-      descriptionController.text = widget.noteModel!.description;
+      titleController.text = widget.noteModel!.title.trim();
+      descriptionController.text = widget.noteModel!.description.trim();
       isPinned = widget.noteModel!.pinned == 1;
+      noteColor = _colorFromString(widget.noteModel!.color);
     }
   }
 
@@ -42,6 +49,11 @@ class _AddNotePageState extends State<AddNotePage> {
     titleController.dispose();
     descriptionController.dispose();
     super.dispose();
+  }
+
+  Color _colorFromString(String colorString) {
+    final colorInt = int.parse(colorString, radix: 16);
+    return Color(colorInt);
   }
 
   @override
@@ -117,135 +129,25 @@ class _AddNotePageState extends State<AddNotePage> {
                         flex: 1,
                         child: SizedBox(),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 40, top: 15),
-                        child: Center(
-                          child: Text(
-                            'What\'s on your mind?',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold),
-                          ),
+                      const TitleWidget(),
+                      TitleTextFieldWidget(titleController: titleController),
+                      NoteTextFormFieldWidget(
+                          descriptionController: descriptionController),
+                      const Expanded(flex: 2, child: SizedBox()),
+                      IconButton(
+                        onPressed: () => pickColor(context),
+                        icon: Icon(
+                          Icons.color_lens_outlined,
+                          color: noteColor,
+                          size: 30,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 40),
-                        child: TextFormField(
-                          style: const TextStyle(color: Colors.white),
-                          controller: titleController,
-                          maxLines: 1,
-                          decoration: const InputDecoration(
-                            hintText: 'Title',
-                            hintStyle: TextStyle(
-                              color: Colors.white,
-                            ),
-                            labelText: 'Note title',
-                            labelStyle: TextStyle(color: Colors.white),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                                width: 0.75,
-                              ),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15),
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15),
-                              ),
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                                width: 1,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      TextFormField(
-                        style: const TextStyle(color: Colors.white),
-                        controller: descriptionController,
-                        maxLines: 5,
-                        decoration: const InputDecoration(
-                          hintText: 'Type note here',
-                          hintStyle: TextStyle(
-                            color: Colors.white,
-                          ),
-                          labelText: 'Note description',
-                          labelStyle: TextStyle(color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                              width: 0.75,
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                              width: 1,
-                            ),
-                          ),
-                        ),
-                        keyboardType: TextInputType.multiline,
-                        onChanged: (value) {},
-                      ),
-                      const Expanded(flex: 3, child: Spacer()),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: SizedBox(
-                          height: 50,
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              final title = titleController.text;
-                              final description = descriptionController.text;
-
-                              if (title.isEmpty || description.isEmpty) {
-                                return;
-                              }
-
-                              final NoteModel model = NoteModel(
-                                id: widget.noteModel?.id,
-                                title: title,
-                                description: description,
-                                pinned: isPinned ? 1 : 0,
-                              );
-
-                              context.read<AddNoteCubit>().addOrUpdate(model);
-                            },
-                            style: const ButtonStyle(
-                              backgroundColor: WidgetStatePropertyAll(
-                                kPrimaryButton,
-                              ),
-                              shape: WidgetStatePropertyAll(
-                                RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    color: Colors.white,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(15),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            child: Text(
-                              widget.noteModel == null ? 'Save' : 'Edit',
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
+                      SaveTaskButton(
+                          titleController: titleController,
+                          descriptionController: descriptionController,
+                          widget: widget,
+                          isPinned: isPinned,
+                          noteColor: noteColor),
                     ],
                   ),
                 ),
@@ -254,6 +156,55 @@ class _AddNotePageState extends State<AddNotePage> {
           );
         },
       ),
+    );
+  }
+
+  void pickColor(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Pick a color'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              BlockPicker(
+                pickerColor: noteColor,
+                availableColors: const [
+                  Colors.white,
+                  Colors.red,
+                  Colors.pink,
+                  Colors.purple,
+                  Colors.deepPurple,
+                  Colors.indigo,
+                  Colors.blue,
+                  Colors.lightBlue,
+                  Colors.cyan,
+                  Colors.teal,
+                  Colors.green,
+                  Colors.lightGreen,
+                  Colors.lime,
+                  Colors.yellow,
+                  Colors.amber,
+                  Colors.orange,
+                  Colors.deepOrange,
+                  Colors.brown,
+                  Colors.grey,
+                  Colors.blueGrey,
+                  Colors.black
+                ],
+                onColorChanged: (color) => setState(() => noteColor = color),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('SELECT'),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

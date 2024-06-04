@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:note_flow/app/core/constant.dart';
 import 'package:note_flow/app/core/enums.dart';
 import 'package:note_flow/app/features/homepage/cubit/home_cubit.dart';
@@ -16,14 +17,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text(
+        title: Text(
           'Notes',
-          style: TextStyle(
+          style: GoogleFonts.lato(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30),
         ),
         centerTitle: true,
-        shadowColor: Colors.black,
-        elevation: 10,
       ),
       floatingActionButton: const FloatingButton(),
       body: Container(
