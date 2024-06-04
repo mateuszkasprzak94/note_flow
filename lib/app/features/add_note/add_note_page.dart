@@ -203,7 +203,6 @@ class _AddNotePageState extends State<AddNotePage> {
                   Colors.brown,
                   Colors.grey,
                   Colors.blueGrey,
-                  Colors.black
                 ],
                 onColorChanged: (color) => setState(() => noteColor = color),
               ),
