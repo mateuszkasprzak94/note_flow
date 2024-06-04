@@ -56,7 +56,7 @@ class HomePageBodyWidget extends StatelessWidget {
                           final note = pinnedNotes[index];
                           return NoteWidget(
                             noteModel: note,
-                            onTap: () async {
+                            onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => AddNotePage(
@@ -65,7 +65,7 @@ class HomePageBodyWidget extends StatelessWidget {
                                 ),
                               );
                             },
-                            onLongPress: () async {
+                            onLongPress: () {
                               showDialog(
                                 context: context,
                                 builder: (context) {
@@ -74,7 +74,7 @@ class HomePageBodyWidget extends StatelessWidget {
                                         'Are you sure you want to delete this note?'),
                                     actions: [
                                       ElevatedButton(
-                                        onPressed: () async {
+                                        onPressed: () {
                                           context
                                               .read<HomeCubit>()
                                               .delete(note);

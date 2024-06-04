@@ -78,6 +78,7 @@ class _AddNotePageState extends State<AddNotePage> {
           }
         },
         builder: (context, state) {
+          final note = widget.noteModel;
           return GestureDetector(
             onTap: () {
               final FocusScopeNode currentScope = FocusScope.of(context);
@@ -99,16 +100,27 @@ class _AddNotePageState extends State<AddNotePage> {
                   ),
                 ),
                 actions: [
-                  IconButton(
-                    icon: Icon(
-                      isPinned ? Icons.push_pin : Icons.push_pin_outlined,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        isPinned = !isPinned;
-                      });
-                    },
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          context.read<HomeCubit>().delete(note!);
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.delete_forever),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          isPinned ? Icons.push_pin : Icons.push_pin_outlined,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isPinned = !isPinned;
+                          });
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
