@@ -14,76 +14,87 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          'Notes',
-          style: GoogleFonts.lato(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30),
-        ),
-        centerTitle: true,
-      ),
-      floatingActionButton: const FloatingButton(),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: kGradient,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+    return GestureDetector(
+      onTap: () {
+        final FocusScopeNode currentScope = FocusScope.of(context);
+        if (!currentScope.hasPrimaryFocus && currentScope.hasFocus) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF63686B),
+          title: Text(
+            'Notes',
+            style: GoogleFonts.lato(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 35),
           ),
+          centerTitle: true,
         ),
-        child: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            final pinnedNotes = state.pinnedNotes;
-            final otherNotes = state.otherNotes;
-            final notes = state.items;
-            final errorMessage = state.errorMessage ?? 'Unknown error';
-            if (state.status == Status.error) {
-              return Center(
-                child: Text(errorMessage),
-              );
-            }
+        floatingActionButton: const FloatingButton(),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: kGradient,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: BlocBuilder<HomeCubit, HomeState>(
+            builder: (context, state) {
+              final pinnedNotes = state.pinnedNotes;
+              final otherNotes = state.otherNotes;
+              final notes = state.items;
+              final errorMessage = state.errorMessage ?? 'Unknown error';
+              if (state.status == Status.error) {
+                return Center(
+                  child: Text(errorMessage),
+                );
+              }
 
-            if (state.status == Status.loading) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: kPrimaryIcon,
-                ),
-              );
-            }
+              if (state.status == Status.loading) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: kPrimaryIcon,
+                  ),
+                );
+              }
 
-            if (notes.isEmpty) {
-              return const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.note_add,
-                      color: kPrimaryIcon,
-                      size: 50,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Your Notes List is Empty',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ],
-                ),
-              );
-            }
+              if (notes.isEmpty) {
+                return const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.note_add,
+                        color: kPrimaryIcon,
+                        size: 50,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Your Notes List is Empty',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
+                );
+              }
 
-            if (state.status == Status.success) {
-              return HomePageBodyWidget(
-                  pinnedNotes: pinnedNotes, otherNotes: otherNotes);
-            }
-            return const SizedBox.shrink();
-          },
+              if (state.status == Status.success) {
+                return HomePageBodyWidget(
+                    pinnedNotes: pinnedNotes, otherNotes: otherNotes);
+              }
+              return const SizedBox.shrink();
+            },
+          ),
         ),
       ),
     );
   }
 }
+
+final controller = TextEditingController();
