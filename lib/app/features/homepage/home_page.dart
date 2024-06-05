@@ -99,7 +99,10 @@ class _HomePageState extends State<HomePage> {
 
                     if (state.status == Status.success) {
                       return HomePageBodyWidget(
-                          pinnedNotes: pinnedNotes, otherNotes: otherNotes);
+                        searchTerm: _controller.text,
+                        pinnedNotes: pinnedNotes,
+                        otherNotes: otherNotes,
+                      );
                     }
                     return const SizedBox.shrink();
                   },

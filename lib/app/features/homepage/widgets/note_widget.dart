@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:note_flow/app/core/highlight_widget.dart';
 import 'package:note_flow/app/domain/models/note_model.dart';
 
 class NoteWidget extends StatelessWidget {
   final NoteModel noteModel;
   final VoidCallback onTap;
   final VoidCallback onLongPress;
+  final String searchTerm;
+
   const NoteWidget({
     super.key,
     required this.noteModel,
     required this.onTap,
     required this.onLongPress,
+    this.searchTerm = '',
   });
 
   Color _colorFromString(String colorString) {
@@ -20,6 +24,18 @@ class NoteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final titleStyle = GoogleFonts.lato(
+      color: Colors.black,
+      fontSize: 20,
+      fontWeight: FontWeight.w800,
+    );
+    const descriptionStyle = TextStyle(
+      color: Colors.black,
+      fontSize: 15,
+      fontWeight: FontWeight.w400,
+    );
+    final highlightedStyle = titleStyle.copyWith(color: Colors.red);
+
     return InkWell(
       onLongPress: onLongPress,
       onTap: onTap,
@@ -35,21 +51,17 @@ class NoteWidget extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    noteModel.title,
-                    style: GoogleFonts.lato(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    ),
+                  child: RichText(
+                    text: highlightOccurrences(noteModel.title, searchTerm,
+                        titleStyle, highlightedStyle),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
-              Text(
-                noteModel.description,
-                style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+              RichText(
+                text: highlightOccurrences(noteModel.description, searchTerm,
+                    descriptionStyle, highlightedStyle),
                 maxLines: 10,
                 overflow: TextOverflow.ellipsis,
               ),

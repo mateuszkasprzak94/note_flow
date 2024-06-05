@@ -7,27 +7,20 @@ import 'package:note_flow/app/features/homepage/widgets/note_widget.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
-class HomePageBodyWidget extends StatefulWidget {
+class HomePageBodyWidget extends StatelessWidget {
   const HomePageBodyWidget({
     super.key,
     required this.pinnedNotes,
     required this.otherNotes,
+    required this.searchTerm,
   });
 
   final List<NoteModel> pinnedNotes;
   final List<NoteModel> otherNotes;
-
-  @override
-  State<HomePageBodyWidget> createState() => _HomePageBodyWidgetState();
-}
-
-class _HomePageBodyWidgetState extends State<HomePageBodyWidget> {
-  final TextEditingController _controller = TextEditingController();
+  final String searchTerm;
 
   @override
   Widget build(BuildContext context) {
-    _controller.addListener(() => setState(() {}));
-
     return Scrollbar(
       child: SingleChildScrollView(
         child: Padding(
@@ -35,7 +28,7 @@ class _HomePageBodyWidgetState extends State<HomePageBodyWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (widget.pinnedNotes.isNotEmpty) ...[
+              if (pinnedNotes.isNotEmpty) ...[
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   child: Text(
@@ -52,14 +45,15 @@ class _HomePageBodyWidgetState extends State<HomePageBodyWidget> {
                   child: StaggeredGridView.countBuilder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.pinnedNotes.length,
+                    itemCount: pinnedNotes.length,
                     crossAxisCount: 2,
                     crossAxisSpacing: 2,
                     mainAxisSpacing: 2,
                     staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
                     itemBuilder: (context, index) {
-                      final note = widget.pinnedNotes[index];
+                      final note = pinnedNotes[index];
                       return NoteWidget(
+                        searchTerm: searchTerm,
                         noteModel: note,
                         onTap: () {
                           Navigator.of(context).push(
@@ -99,7 +93,7 @@ class _HomePageBodyWidgetState extends State<HomePageBodyWidget> {
                   ),
                 ),
               ],
-              if (widget.otherNotes.isNotEmpty && widget.pinnedNotes.isNotEmpty)
+              if (otherNotes.isNotEmpty && pinnedNotes.isNotEmpty)
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   child: Text(
@@ -111,22 +105,23 @@ class _HomePageBodyWidgetState extends State<HomePageBodyWidget> {
                     ),
                   ),
                 ),
-              if (widget.otherNotes.isNotEmpty && widget.pinnedNotes.isEmpty)
+              if (otherNotes.isNotEmpty && pinnedNotes.isEmpty)
                 const SizedBox(height: 20),
-              if (widget.otherNotes.isNotEmpty) ...[
+              if (otherNotes.isNotEmpty) ...[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: StaggeredGridView.countBuilder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.otherNotes.length,
+                    itemCount: otherNotes.length,
                     crossAxisCount: 2,
                     crossAxisSpacing: 2,
                     mainAxisSpacing: 2,
                     staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
                     itemBuilder: (context, index) {
-                      final note = widget.otherNotes[index];
+                      final note = otherNotes[index];
                       return NoteWidget(
+                        searchTerm: searchTerm,
                         noteModel: note,
                         onTap: () async {
                           Navigator.of(context).push(
