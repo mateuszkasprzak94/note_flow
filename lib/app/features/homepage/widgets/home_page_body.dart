@@ -16,84 +16,88 @@ class HomePageBodyWidget extends StatefulWidget {
 
   final List<NoteModel> pinnedNotes;
   final List<NoteModel> otherNotes;
-  final _controller = TextEditingController();
 
   @override
   State<HomePageBodyWidget> createState() => _HomePageBodyWidgetState();
 }
 
 class _HomePageBodyWidgetState extends State<HomePageBodyWidget> {
+  final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    widget._controller.addListener(() => setState(() {}));
+    _controller.addListener(() => setState(() {}));
 
     return Scrollbar(
       child: Column(
         children: [
-          Stack(
-            children: [
-              Container(
-                color: Colors.transparent,
-                width: double.infinity,
-                height: 75,
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(25),
-                    bottomRight: Radius.circular(25),
-                  ),
-                  color: Color(0xFF63686B),
-                ),
-                width: double.infinity,
-                height: 45,
-              ),
-              Positioned(
-                top: 20,
-                left: 0,
-                right: 0,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: TextFormField(
-                    style: const TextStyle(color: Colors.black),
-                    controller: widget._controller,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(5),
-                      fillColor: Colors.white,
-                      filled: true,
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Colors.black,
-                      ),
-                      suffixIcon: widget._controller.text.isEmpty
-                          ? Container(width: 0)
-                          : IconButton(
-                              onPressed: () => widget._controller.clear(),
-                              icon: const Icon(
-                                Icons.close,
-                                color: Colors.black,
-                              ),
-                            ),
-                      hintText: 'Search your notes',
-                      hintStyle: const TextStyle(
-                        color: Colors.black87,
-                      ),
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 0.75,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // Stack(
+          //   children: [
+          //     Container(
+          //       color: Colors.transparent,
+          //       width: double.infinity,
+          //       height: 75,
+          //     ),
+          //     Container(
+          //       decoration: const BoxDecoration(
+          //         borderRadius: BorderRadius.only(
+          //           bottomLeft: Radius.circular(25),
+          //           bottomRight: Radius.circular(25),
+          //         ),
+          //         color: Color(0xFF63686B),
+          //       ),
+          //       width: double.infinity,
+          //       height: 45,
+          //     ),
+          //     Positioned(
+          //       top: 20,
+          //       left: 0,
+          //       right: 0,
+          //       child: Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          //         child: TextFormField(
+          //           style: const TextStyle(color: Colors.black),
+          //           controller: _controller,
+          //           onChanged: (query) {
+          //             context.read<HomeCubit>().searchNotes(query);
+          //           },
+          //           maxLines: 1,
+          //           decoration: InputDecoration(
+          //             contentPadding: const EdgeInsets.all(5),
+          //             fillColor: Colors.white,
+          //             filled: true,
+          //             prefixIcon: const Icon(
+          //               Icons.search,
+          //               color: Colors.black,
+          //             ),
+          //             suffixIcon: _controller.text.isEmpty
+          //                 ? Container(width: 0)
+          //                 : IconButton(
+          //                     onPressed: () => _controller.clear(),
+          //                     icon: const Icon(
+          //                       Icons.close,
+          //                       color: Colors.black,
+          //                     ),
+          //                   ),
+          //             hintText: 'Search your notes',
+          //             hintStyle: const TextStyle(
+          //               color: Colors.black87,
+          //             ),
+          //             border: const OutlineInputBorder(
+          //               borderSide: BorderSide(
+          //                 color: Colors.white,
+          //                 width: 0.75,
+          //               ),
+          //               borderRadius: BorderRadius.all(
+          //                 Radius.circular(25),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
