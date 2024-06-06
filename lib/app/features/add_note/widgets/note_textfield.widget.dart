@@ -10,38 +10,41 @@ class NoteTextFormFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      style: const TextStyle(color: Colors.white),
-      controller: descriptionController,
-      maxLines: 5,
-      decoration: const InputDecoration(
-        hintText: 'Type note here',
-        hintStyle: TextStyle(
-          color: Colors.white,
-        ),
-        labelText: 'Note description',
-        labelStyle: TextStyle(color: Colors.white),
-        border: OutlineInputBorder(
-          borderSide: BorderSide(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: TextFormField(
+        style: const TextStyle(color: Colors.white),
+        controller: descriptionController,
+        maxLines: 5,
+        decoration: const InputDecoration(
+          hintText: 'Type note here',
+          hintStyle: TextStyle(
             color: Colors.white,
-            width: 0.75,
           ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(15),
+          labelText: 'Note',
+          labelStyle: TextStyle(color: Colors.white),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 0.75,
+            ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(15),
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(15),
+            ),
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 1,
+            ),
           ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(15),
-          ),
-          borderSide: BorderSide(
-            color: Colors.white,
-            width: 1,
-          ),
-        ),
+        keyboardType: TextInputType.multiline,
+        onChanged: (value) {},
       ),
-      keyboardType: TextInputType.multiline,
-      onChanged: (value) {},
     );
   }
 }
