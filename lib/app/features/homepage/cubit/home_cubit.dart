@@ -12,30 +12,18 @@ class HomeCubit extends Cubit<HomeState> {
 
   final NoteRepository _noteRepository;
 
-  Future<void> start() async {
+  Future<void> _loadNotes() async {
     emit(
-      HomeState(
-        items: [],
+      state.copyWith(
         status: Status.loading,
-        errorMessage: '',
       ),
     );
     try {
       final results = await _noteRepository.getAllNotes();
-      final pinnedNotes = results.where((note) => note.pinned == 1).toList();
-      final otherNotes = results.where((note) => note.pinned == 0).toList();
-      emit(
-        HomeState(
-          items: results,
-          pinnedNotes: pinnedNotes,
-          otherNotes: otherNotes,
-          status: Status.success,
-          errorMessage: '',
-        ),
-      );
+      _updateStateWithNotes(results);
     } catch (error) {
       emit(
-        HomeState(
+        state.copyWith(
           status: Status.error,
           errorMessage: error.toString(),
         ),
@@ -43,26 +31,30 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  void _updateStateWithNotes(List<NoteModel> notes) {
+    final pinnedNotes = notes.where((note) => note.pinned == 1).toList();
+    final otherNotes = notes.where((note) => note.pinned == 0).toList();
+    emit(
+      state.copyWith(
+        items: notes,
+        pinnedNotes: pinnedNotes,
+        otherNotes: otherNotes,
+        status: Status.success,
+      ),
+    );
+  }
+
+  Future<void> start() async {
+    _loadNotes();
+  }
+
   Future<void> delete(NoteModel noteModel) async {
     try {
       await _noteRepository.deleteNote(noteModel);
-      final updatedNotes =
-          state.items.where((note) => note.id != noteModel.id).toList();
-      final pinnedNotes =
-          updatedNotes.where((note) => note.pinned == 1).toList();
-      final otherNotes =
-          updatedNotes.where((note) => note.pinned == 0).toList();
-      emit(
-        state.copyWith(
-          items: updatedNotes,
-          pinnedNotes: pinnedNotes,
-          otherNotes: otherNotes,
-          status: Status.success,
-        ),
-      );
+      _loadNotes();
     } catch (error) {
       emit(
-        HomeState(
+        state.copyWith(
           status: Status.error,
           errorMessage: error.toString(),
         ),
@@ -78,17 +70,7 @@ class HomeCubit extends Cubit<HomeState> {
     );
     try {
       final notes = await _noteRepository.searchNotes(query);
-      final pinnedNotes = notes.where((note) => note.pinned == 1).toList();
-      final otherNotes = notes.where((note) => note.pinned == 0).toList();
-
-      emit(
-        state.copyWith(
-          items: notes,
-          pinnedNotes: pinnedNotes,
-          otherNotes: otherNotes,
-          status: Status.success,
-        ),
-      );
+      _updateStateWithNotes(notes);
     } catch (error) {
       emit(
         state.copyWith(
@@ -97,5 +79,36 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
     }
+  }
+
+  Future<void> filterByTag(String tag) async {
+    emit(
+      state.copyWith(
+        status: Status.loading,
+      ),
+    );
+    try {
+      final notes = await _noteRepository.getAllNotes();
+      final filteredNotes = _filterNotesByTag(notes, tag);
+      _updateStateWithNotes(filteredNotes);
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: Status.error,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
+
+  List<NoteModel> _filterNotesByTag(List<NoteModel> notes, String tag) {
+    if (tag == 'inspirationTag') {
+      return notes.where((note) => note.inspirationTag).toList();
+    } else if (tag == 'personalTag') {
+      return notes.where((note) => note.personalTag).toList();
+    } else if (tag == 'workTag') {
+      return notes.where((note) => note.workTag).toList();
+    }
+    return notes;
   }
 }

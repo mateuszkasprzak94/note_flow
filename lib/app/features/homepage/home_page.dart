@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:note_flow/app/core/constant.dart';
 import 'package:note_flow/app/core/enums.dart';
 import 'package:note_flow/app/features/homepage/cubit/home_cubit.dart';
+import 'package:note_flow/app/features/homepage/widgets/drawer_widget.dart';
 import 'package:note_flow/app/features/homepage/widgets/floating_button.dart';
 import 'package:note_flow/app/features/homepage/widgets/home_page_body.dart';
 import 'package:note_flow/app/features/homepage/widgets/searchbar_widget.dart';
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color(0xFF63686B),
           title: Text(
             'Notes',
@@ -41,6 +43,7 @@ class _HomePageState extends State<HomePage> {
           ),
           centerTitle: true,
         ),
+        drawer: const DrawerWidget(),
         floatingActionButton: const FloatingButton(),
         body: Container(
           decoration: const BoxDecoration(

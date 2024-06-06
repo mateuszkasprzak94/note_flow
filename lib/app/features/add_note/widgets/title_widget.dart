@@ -8,7 +8,7 @@ class TitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.only(bottom: 40, top: 15),
+      padding: EdgeInsets.only(bottom: 30, top: 15),
       child: Center(
         child: Text(
           'What\'s on your mind?',

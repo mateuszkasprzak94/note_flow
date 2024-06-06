@@ -4,6 +4,7 @@ import 'package:note_flow/app/core/constant.dart';
 import 'package:note_flow/app/core/enums.dart';
 import 'package:note_flow/app/domain/database/db_helper.dart';
 import 'package:note_flow/app/domain/models/note_model.dart';
+import 'package:note_flow/app/domain/repository/notes_repository.dart';
 import 'package:note_flow/app/features/add_note/cubit/add_note_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_flow/app/features/add_note/widgets/note_textfield.widget.dart';
@@ -30,6 +31,10 @@ class _AddNotePageState extends State<AddNotePage> {
   bool isPinned = false;
   Color noteColor = Colors.white;
 
+  bool _inspirationTag = false;
+  bool _personalTag = false;
+  bool _workTag = false;
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +46,9 @@ class _AddNotePageState extends State<AddNotePage> {
       descriptionController.text = widget.noteModel!.description.trim();
       isPinned = widget.noteModel!.pinned == 1;
       noteColor = _colorFromString(widget.noteModel!.color);
+      _inspirationTag = widget.noteModel!.inspirationTag;
+      _personalTag = widget.noteModel!.personalTag;
+      _workTag = widget.noteModel!.workTag;
     }
   }
 
@@ -59,7 +67,7 @@ class _AddNotePageState extends State<AddNotePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddNoteCubit(DBHelper()),
+      create: (context) => AddNoteCubit(NoteRepository(DBHelper())),
       child: BlocConsumer<AddNoteCubit, AddNoteState>(
         listener: (context, state) {
           final errorMessage = state.errorMessage ?? 'Unknown error';
@@ -134,7 +142,7 @@ class _AddNotePageState extends State<AddNotePage> {
                 ),
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                   child: Column(
                     children: [
                       const Expanded(
@@ -145,7 +153,132 @@ class _AddNotePageState extends State<AddNotePage> {
                       TitleTextFieldWidget(titleController: titleController),
                       NoteTextFormFieldWidget(
                           descriptionController: descriptionController),
-                      const Expanded(flex: 2, child: SizedBox()),
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Icon(
+                                  Icons.label_outline,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                const Text(
+                                  'Inspiration',
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  activeColor: const Color(0xFF016975),
+                                  value: _inspirationTag,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _inspirationTag = value!;
+                                    });
+                                  },
+                                  side: WidgetStateBorderSide.resolveWith(
+                                    (states) {
+                                      if (states
+                                          .contains(WidgetState.selected)) {
+                                        return const BorderSide(
+                                            color: Color(0xFF016975), width: 2);
+                                      }
+                                      return const BorderSide(
+                                          color: Colors.white, width: 2);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Icon(
+                                  Icons.label_outline,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                const Text(
+                                  'Personal',
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  activeColor: const Color(0xFF016975),
+                                  value: _personalTag,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _personalTag = value!;
+                                    });
+                                  },
+                                  side: WidgetStateBorderSide.resolveWith(
+                                    (states) {
+                                      if (states
+                                          .contains(WidgetState.selected)) {
+                                        return const BorderSide(
+                                            color: Color(0xFF016975), width: 2);
+                                      }
+                                      return const BorderSide(
+                                          color: Colors.white, width: 2);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Icon(
+                                  Icons.label_outline,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                const Text(
+                                  'Work',
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  activeColor: const Color(0xFF016975),
+                                  value: _workTag,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _workTag = value!;
+                                    });
+                                  },
+                                  side: WidgetStateBorderSide.resolveWith(
+                                    (states) {
+                                      if (states
+                                          .contains(WidgetState.selected)) {
+                                        return const BorderSide(
+                                          color: Color(0xFF016975),
+                                          width: 2,
+                                        );
+                                      }
+                                      return const BorderSide(
+                                          color: Colors.white, width: 2);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                       IconButton(
                         onPressed: () => pickColor(context),
                         icon: Icon(
@@ -155,11 +288,15 @@ class _AddNotePageState extends State<AddNotePage> {
                         ),
                       ),
                       SaveTaskButton(
-                          titleController: titleController,
-                          descriptionController: descriptionController,
-                          widget: widget,
-                          isPinned: isPinned,
-                          noteColor: noteColor),
+                        titleController: titleController,
+                        descriptionController: descriptionController,
+                        widget: widget,
+                        isPinned: isPinned,
+                        noteColor: noteColor,
+                        inspirationTag: _inspirationTag,
+                        personalTag: _personalTag,
+                        workTag: _workTag,
+                      ),
                     ],
                   ),
                 ),
