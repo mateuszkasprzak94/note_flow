@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color(0xFF63686B),
           title: Text(
             'Notes',
@@ -40,6 +41,62 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 35),
           ),
           centerTitle: true,
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Color(0xFF63686B),
+                ),
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                title: const Text('All Notes'),
+                onTap: () {
+                  context.read<HomeCubit>().start();
+                  Navigator.pop(context);
+                },
+              ),
+              const Divider(
+                color: Colors.black,
+                thickness: 1,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text('Labes'),
+              ),
+              ListTile(
+                title: const Text('Inspiration'),
+                onTap: () {
+                  context.read<HomeCubit>().filterByTag('inspirationTag');
+
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Personal'),
+                onTap: () {
+                  context.read<HomeCubit>().filterByTag('personalTag');
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Work'),
+                onTap: () {
+                  context.read<HomeCubit>().filterByTag('workTag');
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
         ),
         floatingActionButton: const FloatingButton(),
         body: Container(
