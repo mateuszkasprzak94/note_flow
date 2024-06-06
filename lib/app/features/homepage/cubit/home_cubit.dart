@@ -98,4 +98,40 @@ class HomeCubit extends Cubit<HomeState> {
       );
     }
   }
+
+  Future<void> filterByTag(String tag) async {
+    emit(
+      state.copyWith(
+        status: Status.loading,
+      ),
+    );
+    try {
+      final notes = await _noteRepository.getAllNotes();
+
+      List<NoteModel> filteredNotes;
+      if (tag == 'inspirationTag') {
+        filteredNotes = notes.where((note) => note.inspirationTag).toList();
+      } else if (tag == 'personalTag') {
+        filteredNotes =
+            notes.where((note) => note.personalTag == true).toList();
+      } else if (tag == 'workTag') {
+        filteredNotes = notes.where((note) => note.workTag).toList();
+      } else {
+        filteredNotes = notes;
+      }
+      emit(
+        state.copyWith(
+          items: filteredNotes,
+          status: Status.success,
+        ),
+      );
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: Status.error,
+          errorMessage: error.toString(),
+        ),
+      );
+    }
+  }
 }
