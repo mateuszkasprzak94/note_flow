@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_flow/app/domain/database/db_helper.dart';
+import 'package:note_flow/app/domain/repository/notes_repository.dart';
 import 'package:note_flow/app/features/homepage/cubit/home_cubit.dart';
 import 'package:note_flow/app/features/homepage/home_page.dart';
 
@@ -10,7 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(dbHelper: DBHelper())..start(),
+      create: (context) => HomeCubit(
+        NoteRepository(
+          DBHelper(),
+        ),
+      )..start(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

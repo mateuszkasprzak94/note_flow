@@ -67,6 +67,16 @@ class DBHelper {
     );
   }
 
+  Future<List<NoteModel>> searchNotes(String query) async {
+    final db = await _getDB();
+    final results = await db.query(
+      "Note",
+      where: "title LIKE ? OR description LIKE ?",
+      whereArgs: ["%$query%", "%$query%"],
+    );
+    return results.map((json) => NoteModel.fromJson(json)).toList();
+  }
+
   Future<void> close() async {
     final db = await _getDB();
     return db.close();
