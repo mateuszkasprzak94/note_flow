@@ -13,6 +13,9 @@ class SaveTaskButton extends StatelessWidget {
     required this.widget,
     required this.isPinned,
     required this.noteColor,
+    required this.inspirationTag,
+    required this.personalTag,
+    required this.workTag,
   });
 
   final TextEditingController titleController;
@@ -20,6 +23,9 @@ class SaveTaskButton extends StatelessWidget {
   final AddNotePage widget;
   final bool isPinned;
   final Color noteColor;
+  final bool inspirationTag;
+  final bool personalTag;
+  final bool workTag;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +49,9 @@ class SaveTaskButton extends StatelessWidget {
               description: description,
               pinned: isPinned ? 1 : 0,
               color: noteColor.value.toRadixString(16),
+              inspirationTag: inspirationTag,
+              personalTag: personalTag,
+              workTag: workTag,
             );
 
             context.read<AddNoteCubit>().addOrUpdate(model);
