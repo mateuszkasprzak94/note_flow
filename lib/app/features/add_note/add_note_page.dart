@@ -142,7 +142,7 @@ class _AddNotePageState extends State<AddNotePage> {
                 ),
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                   child: Column(
                     children: [
                       const Expanded(

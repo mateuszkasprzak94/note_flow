@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:note_flow/app/core/constant.dart';
 import 'package:note_flow/app/core/enums.dart';
 import 'package:note_flow/app/features/homepage/cubit/home_cubit.dart';
+import 'package:note_flow/app/features/homepage/widgets/drawer_widget.dart';
 import 'package:note_flow/app/features/homepage/widgets/floating_button.dart';
 import 'package:note_flow/app/features/homepage/widgets/home_page_body.dart';
 import 'package:note_flow/app/features/homepage/widgets/searchbar_widget.dart';
@@ -42,62 +43,7 @@ class _HomePageState extends State<HomePage> {
           ),
           centerTitle: true,
         ),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Color(0xFF63686B),
-                ),
-                child: Text(
-                  'Menu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              ListTile(
-                title: const Text('All Notes'),
-                onTap: () {
-                  context.read<HomeCubit>().start();
-                  Navigator.pop(context);
-                },
-              ),
-              const Divider(
-                color: Colors.black,
-                thickness: 1,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Text('Labes'),
-              ),
-              ListTile(
-                title: const Text('Inspiration'),
-                onTap: () {
-                  context.read<HomeCubit>().filterByTag('inspirationTag');
-
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Personal'),
-                onTap: () {
-                  context.read<HomeCubit>().filterByTag('personalTag');
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Work'),
-                onTap: () {
-                  context.read<HomeCubit>().filterByTag('workTag');
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: const DrawerWidget(),
         floatingActionButton: const FloatingButton(),
         body: Container(
           decoration: const BoxDecoration(
