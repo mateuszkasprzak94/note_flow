@@ -22,11 +22,12 @@ class NoteWidget extends StatelessWidget {
     return Color(colorInt).withOpacity(1.0);
   }
 
-  String _getTag() {
-    if (noteModel.inspirationTag) return 'Inspiration';
-    if (noteModel.personalTag) return 'Personal';
-    if (noteModel.workTag) return 'Work';
-    return '';
+  List<String> _getTags() {
+    final tags = <String>[];
+    if (noteModel.inspirationTag) tags.add('Inspiration');
+    if (noteModel.personalTag) tags.add('Personal');
+    if (noteModel.workTag) tags.add('Work');
+    return tags;
   }
 
   @override
@@ -42,7 +43,7 @@ class NoteWidget extends StatelessWidget {
       fontWeight: FontWeight.w400,
     );
     final highlightedStyle = titleStyle.copyWith(color: Colors.red);
-    final tag = _getTag();
+    final tags = _getTags();
 
     return InkWell(
       onLongPress: onLongPress,
@@ -73,26 +74,31 @@ class NoteWidget extends StatelessWidget {
                 maxLines: 10,
                 overflow: TextOverflow.ellipsis,
               ),
-              if (tag.isNotEmpty)
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      tag,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+              if (tags.isNotEmpty)
+                Wrap(
+                  spacing: 5,
+                  runSpacing: 1,
+                  children: tags.map(
+                    (tag) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
+                        margin: const EdgeInsets.only(top: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          tag,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                    },
+                  ).toList(),
                 ),
             ],
           ),
