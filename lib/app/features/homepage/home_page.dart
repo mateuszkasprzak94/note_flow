@@ -20,6 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _controller = TextEditingController();
+  bool isGridView = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +43,22 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 35),
           ),
           centerTitle: true,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    isGridView = !isGridView;
+                  });
+                },
+                icon: Icon(
+                  isGridView ? Icons.grid_view_outlined : Icons.list,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
         ),
         drawer: const DrawerWidget(),
         floatingActionButton: const FloatingButton(),
@@ -105,6 +122,7 @@ class _HomePageState extends State<HomePage> {
                         searchTerm: _controller.text,
                         pinnedNotes: pinnedNotes,
                         otherNotes: otherNotes,
+                        isGridView: isGridView,
                       );
                     }
                     return const SizedBox.shrink();

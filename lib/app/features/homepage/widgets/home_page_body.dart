@@ -13,11 +13,13 @@ class HomePageBodyWidget extends StatelessWidget {
     required this.pinnedNotes,
     required this.otherNotes,
     required this.searchTerm,
+    required this.isGridView,
   });
 
   final List<NoteModel> pinnedNotes;
   final List<NoteModel> otherNotes;
   final String searchTerm;
+  final bool isGridView;
 
   @override
   Widget build(BuildContext context) {
@@ -40,58 +42,109 @@ class HomePageBodyWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: StaggeredGridView.countBuilder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: pinnedNotes.length,
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 2,
-                    staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
-                    itemBuilder: (context, index) {
-                      final note = pinnedNotes[index];
-                      return NoteWidget(
-                        searchTerm: searchTerm,
-                        noteModel: note,
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => AddNotePage(
-                                noteModel: note,
+                if (isGridView)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: StaggeredGridView.countBuilder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: pinnedNotes.length,
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 2,
+                      mainAxisSpacing: 2,
+                      staggeredTileBuilder: (index) =>
+                          const StaggeredTile.fit(1),
+                      itemBuilder: (context, index) {
+                        final note = pinnedNotes[index];
+                        return NoteWidget(
+                          searchTerm: searchTerm,
+                          noteModel: note,
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => AddNotePage(
+                                  noteModel: note,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        onLongPress: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text(
-                                    'Are you sure you want to delete this note?'),
-                                actions: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      context.read<HomeCubit>().delete(note);
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Yes'),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('No'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
+                            );
+                          },
+                          onLongPress: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text(
+                                      'Are you sure you want to delete this note?'),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context.read<HomeCubit>().delete(note);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('No'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: pinnedNotes.length,
+                      itemBuilder: (context, index) {
+                        final note = pinnedNotes[index];
+                        return NoteWidget(
+                          searchTerm: searchTerm,
+                          noteModel: note,
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => AddNotePage(
+                                  noteModel: note,
+                                ),
+                              ),
+                            );
+                          },
+                          onLongPress: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text(
+                                      'Are you sure you want to delete this note?'),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context.read<HomeCubit>().delete(note);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('No'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
               ],
               if (otherNotes.isNotEmpty && pinnedNotes.isNotEmpty)
                 const Padding(
@@ -108,58 +161,109 @@ class HomePageBodyWidget extends StatelessWidget {
               if (otherNotes.isNotEmpty && pinnedNotes.isEmpty)
                 const SizedBox(height: 20),
               if (otherNotes.isNotEmpty) ...[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: StaggeredGridView.countBuilder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: otherNotes.length,
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 2,
-                    mainAxisSpacing: 2,
-                    staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
-                    itemBuilder: (context, index) {
-                      final note = otherNotes[index];
-                      return NoteWidget(
-                        searchTerm: searchTerm,
-                        noteModel: note,
-                        onTap: () async {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => AddNotePage(
-                                noteModel: note,
+                if (isGridView)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: StaggeredGridView.countBuilder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: otherNotes.length,
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 2,
+                      mainAxisSpacing: 2,
+                      staggeredTileBuilder: (index) =>
+                          const StaggeredTile.fit(1),
+                      itemBuilder: (context, index) {
+                        final note = otherNotes[index];
+                        return NoteWidget(
+                          searchTerm: searchTerm,
+                          noteModel: note,
+                          onTap: () async {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => AddNotePage(
+                                  noteModel: note,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        onLongPress: () async {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text(
-                                    'Are you sure you want to delete this note?'),
-                                actions: [
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      context.read<HomeCubit>().delete(note);
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Yes'),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text('No'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
+                            );
+                          },
+                          onLongPress: () async {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text(
+                                      'Are you sure you want to delete this note?'),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        context.read<HomeCubit>().delete(note);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('No'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: otherNotes.length,
+                      itemBuilder: (context, index) {
+                        final note = otherNotes[index];
+                        return NoteWidget(
+                          searchTerm: searchTerm,
+                          noteModel: note,
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => AddNotePage(
+                                  noteModel: note,
+                                ),
+                              ),
+                            );
+                          },
+                          onLongPress: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text(
+                                      'Are you sure you want to delete this note?'),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context.read<HomeCubit>().delete(note);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('No'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
               ],
             ],
           ),
