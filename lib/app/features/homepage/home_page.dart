@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: const Color(0xFF63686B),
           title: Text(
