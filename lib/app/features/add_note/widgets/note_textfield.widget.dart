@@ -16,14 +16,23 @@ class NoteTextFormFieldWidget extends StatelessWidget {
         style: const TextStyle(color: Colors.white),
         controller: descriptionController,
         maxLines: 5,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
+          suffixIcon: descriptionController.text.isEmpty
+              ? Container(width: 0)
+              : IconButton(
+                  onPressed: () => descriptionController.clear(),
+                  icon: const Icon(
+                    Icons.clear,
+                    color: Colors.white,
+                  ),
+                ),
           hintText: 'Type note here',
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.white,
           ),
           labelText: 'Note',
-          labelStyle: TextStyle(color: Colors.white),
-          border: OutlineInputBorder(
+          labelStyle: const TextStyle(color: Colors.white),
+          border: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.white,
               width: 0.75,
@@ -32,7 +41,7 @@ class NoteTextFormFieldWidget extends StatelessWidget {
               Radius.circular(15),
             ),
           ),
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(15),
             ),

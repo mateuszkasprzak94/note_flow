@@ -16,14 +16,25 @@ class TitleTextFieldWidget extends StatelessWidget {
         style: const TextStyle(color: Colors.white),
         controller: titleController,
         maxLines: 1,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
+          suffixIcon: titleController.text.isEmpty
+              ? Container(width: 0)
+              : IconButton(
+                  onPressed: () {
+                    titleController.clear();
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
+                ),
           hintText: 'Title',
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.white,
           ),
-          labelText: 'Note title',
-          labelStyle: TextStyle(color: Colors.white),
-          border: OutlineInputBorder(
+          labelText: 'Title',
+          labelStyle: const TextStyle(color: Colors.white),
+          border: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.white,
               width: 0.75,
@@ -32,7 +43,7 @@ class TitleTextFieldWidget extends StatelessWidget {
               Radius.circular(15),
             ),
           ),
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(15),
             ),
