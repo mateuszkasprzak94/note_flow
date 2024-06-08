@@ -9,6 +9,7 @@ import 'package:note_flow/app/features/add_note/cubit/add_note_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_flow/app/features/add_note/widgets/note_textfield.widget.dart';
 import 'package:note_flow/app/features/add_note/widgets/save_task_button_widget.dart';
+import 'package:note_flow/app/features/add_note/widgets/tag_widget.dart';
 import 'package:note_flow/app/features/add_note/widgets/title_textfield_widget.dart';
 import 'package:note_flow/app/features/add_note/widgets/title_widget.dart';
 import 'package:note_flow/app/features/homepage/cubit/home_cubit.dart';
@@ -157,124 +158,32 @@ class _AddNotePageState extends State<AddNotePage> {
                         flex: 2,
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Icon(
-                                  Icons.label_outline,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                                const Text(
-                                  'Inspiration',
-                                  style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                Checkbox(
-                                  checkColor: Colors.white,
-                                  activeColor: const Color(0xFF016975),
-                                  value: _inspirationTag,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _inspirationTag = value!;
-                                    });
-                                  },
-                                  side: WidgetStateBorderSide.resolveWith(
-                                    (states) {
-                                      if (states
-                                          .contains(WidgetState.selected)) {
-                                        return const BorderSide(
-                                            color: Color(0xFF016975), width: 2);
-                                      }
-                                      return const BorderSide(
-                                          color: Colors.white, width: 2);
-                                    },
-                                  ),
-                                ),
-                              ],
+                            TagWidget(
+                              tagTitle: 'Inspiration',
+                              tagType: _inspirationTag,
+                              onChanged: (value) {
+                                setState(() {
+                                  _inspirationTag = value!;
+                                });
+                              },
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Icon(
-                                  Icons.label_outline,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                                const Text(
-                                  'Personal',
-                                  style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                Checkbox(
-                                  checkColor: Colors.white,
-                                  activeColor: const Color(0xFF016975),
-                                  value: _personalTag,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _personalTag = value!;
-                                    });
-                                  },
-                                  side: WidgetStateBorderSide.resolveWith(
-                                    (states) {
-                                      if (states
-                                          .contains(WidgetState.selected)) {
-                                        return const BorderSide(
-                                            color: Color(0xFF016975), width: 2);
-                                      }
-                                      return const BorderSide(
-                                          color: Colors.white, width: 2);
-                                    },
-                                  ),
-                                ),
-                              ],
+                            TagWidget(
+                              tagTitle: 'Personal',
+                              tagType: _personalTag,
+                              onChanged: (value) {
+                                setState(() {
+                                  _personalTag = value!;
+                                });
+                              },
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Icon(
-                                  Icons.label_outline,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                                const Text(
-                                  'Work',
-                                  style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                Checkbox(
-                                  checkColor: Colors.white,
-                                  activeColor: const Color(0xFF016975),
-                                  value: _workTag,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _workTag = value!;
-                                    });
-                                  },
-                                  side: WidgetStateBorderSide.resolveWith(
-                                    (states) {
-                                      if (states
-                                          .contains(WidgetState.selected)) {
-                                        return const BorderSide(
-                                          color: Color(0xFF016975),
-                                          width: 2,
-                                        );
-                                      }
-                                      return const BorderSide(
-                                          color: Colors.white, width: 2);
-                                    },
-                                  ),
-                                ),
-                              ],
+                            TagWidget(
+                              tagTitle: 'Work',
+                              tagType: _workTag,
+                              onChanged: (value) {
+                                setState(() {
+                                  _workTag = value!;
+                                });
+                              },
                             ),
                           ],
                         ),
@@ -319,28 +228,7 @@ class _AddNotePageState extends State<AddNotePage> {
             children: [
               BlockPicker(
                 pickerColor: noteColor,
-                availableColors: const [
-                  Colors.white,
-                  Colors.red,
-                  Colors.pink,
-                  Colors.purple,
-                  Colors.deepPurple,
-                  Colors.indigo,
-                  Colors.blue,
-                  Colors.lightBlue,
-                  Colors.cyan,
-                  Colors.teal,
-                  Colors.green,
-                  Colors.lightGreen,
-                  Colors.lime,
-                  Colors.yellow,
-                  Colors.amber,
-                  Colors.orange,
-                  Colors.deepOrange,
-                  Colors.brown,
-                  Colors.grey,
-                  Colors.blueGrey,
-                ],
+                availableColors: kNoteColors,
                 onColorChanged: (color) => setState(() => noteColor = color),
               ),
               TextButton(
