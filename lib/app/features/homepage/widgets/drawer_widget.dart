@@ -36,20 +36,22 @@ class DrawerWidget extends StatelessWidget {
           ),
         ),
         padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top, bottom: 24),
+            top: MediaQuery.of(context).padding.top, bottom: 25),
         child: Column(
           children: [
             const CircleAvatar(
               radius: 70,
+              backgroundColor: Colors.transparent,
               backgroundImage: AssetImage('assets/logo_foreground.png'),
             ),
             const SizedBox(height: 15),
             Text(
               'NoteFlow',
               style: GoogleFonts.lora(
-                  letterSpacing: 1,
-                  fontSize: MediaQuery.of(context).size.width / 11,
-                  color: Colors.white),
+                letterSpacing: 1,
+                fontSize: MediaQuery.of(context).size.width * 0.09,
+                color: Colors.white,
+              ),
             ),
           ],
         ),
