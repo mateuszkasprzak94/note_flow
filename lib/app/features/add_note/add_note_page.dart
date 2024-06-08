@@ -67,6 +67,9 @@ class _AddNotePageState extends State<AddNotePage> {
 
   @override
   Widget build(BuildContext context) {
+    titleController.addListener(() => setState(() {}));
+    descriptionController.addListener(() => setState(() {}));
+
     return BlocProvider(
       create: (context) => AddNoteCubit(NoteRepository(DBHelper())),
       child: BlocConsumer<AddNoteCubit, AddNoteState>(
