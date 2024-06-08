@@ -77,7 +77,7 @@ class DrawerWidget extends StatelessWidget {
               },
             ),
             const Divider(
-              color: Colors.black,
+              color: Colors.black38,
               thickness: 1,
             ),
             const Padding(
