@@ -160,6 +160,7 @@ class _AddNotePageState extends State<AddNotePage> {
                       Expanded(
                         flex: 2,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TagWidget(
                               tagTitle: 'Inspiration',
