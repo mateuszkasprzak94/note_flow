@@ -6,7 +6,7 @@ import 'package:note_flow/app/domain/models/note_model.dart';
 import 'package:note_flow/app/domain/repository/notes_repository.dart';
 
 part 'add_note_state.dart';
-part 'add_note_cubit.freezed.dart';
+part 'generated/add_note_cubit.freezed.dart';
 
 class AddNoteCubit extends Cubit<AddNoteState> {
   AddNoteCubit(this._noteRepository) : super(AddNoteState());

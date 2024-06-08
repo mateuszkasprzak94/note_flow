@@ -4,8 +4,8 @@ import 'package:note_flow/app/core/enums.dart';
 import 'package:note_flow/app/domain/models/note_model.dart';
 import 'package:note_flow/app/domain/repository/notes_repository.dart';
 
+part 'generated/home_cubit.freezed.dart';
 part 'home_state.dart';
-part 'home_cubit.freezed.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this._noteRepository) : super(HomeState());

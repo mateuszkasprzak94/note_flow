@@ -1,7 +1,9 @@
+import 'package:injectable/injectable.dart';
 import 'package:note_flow/app/domain/models/note_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+@injectable
 class DBHelper {
   static const int _version = 4;
   static const String _dbName = 'Notes';

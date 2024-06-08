@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:note_flow/app/core/constant.dart';
 import 'package:note_flow/app/core/enums.dart';
-import 'package:note_flow/app/domain/database/db_helper.dart';
 import 'package:note_flow/app/domain/models/note_model.dart';
-import 'package:note_flow/app/domain/repository/notes_repository.dart';
 import 'package:note_flow/app/features/add_note/cubit/add_note_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_flow/app/features/add_note/widgets/note_textfield.widget.dart';
 import 'package:note_flow/app/features/add_note/widgets/save_task_button_widget.dart';
 import 'package:note_flow/app/features/add_note/widgets/tag_widget.dart';
 import 'package:note_flow/app/features/add_note/widgets/title_textfield_widget.dart';
 import 'package:note_flow/app/features/add_note/widgets/title_widget.dart';
 import 'package:note_flow/app/features/homepage/cubit/home_cubit.dart';
+import 'package:note_flow/app/injection_container.dart';
 
 class AddNotePage extends StatefulWidget {
   const AddNotePage({
@@ -70,8 +69,8 @@ class _AddNotePageState extends State<AddNotePage> {
     titleController.addListener(() => setState(() {}));
     descriptionController.addListener(() => setState(() {}));
 
-    return BlocProvider(
-      create: (context) => AddNoteCubit(NoteRepository(DBHelper())),
+    return BlocProvider<AddNoteCubit>(
+      create: (context) => getIt(),
       child: BlocConsumer<AddNoteCubit, AddNoteState>(
         listener: (context, state) {
           final errorMessage = state.errorMessage ?? 'Unknown error';

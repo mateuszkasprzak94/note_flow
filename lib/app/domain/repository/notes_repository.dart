@@ -2,10 +2,9 @@ import 'package:note_flow/app/domain/database/db_helper.dart';
 import 'package:note_flow/app/domain/models/note_model.dart';
 
 class NoteRepository {
-  final DBHelper _dbHelper;
-
   NoteRepository(this._dbHelper);
 
+  final DBHelper _dbHelper;
   Future<List<NoteModel>> searchNotes(String query) {
     return _dbHelper.searchNotes(query);
   }
