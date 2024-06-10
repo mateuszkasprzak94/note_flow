@@ -14,21 +14,24 @@ class TagWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dw = MediaQuery.of(context).size.width;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Icon(
+        Icon(
           Icons.label_outline,
           color: Colors.white,
-          size: 30,
+          size: dw * 0.075,
         ),
         Text(
           tagTitle,
-          style: const TextStyle(
-              fontStyle: FontStyle.italic,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.white),
+          style: TextStyle(
+            fontStyle: FontStyle.italic,
+            fontSize: dw * 0.045,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         Checkbox(
           checkColor: Colors.white,
@@ -43,7 +46,10 @@ class TagWidget extends StatelessWidget {
                   width: 2,
                 );
               }
-              return const BorderSide(color: Colors.white, width: 2);
+              return const BorderSide(
+                color: Colors.white,
+                width: 2,
+              );
             },
           ),
         ),

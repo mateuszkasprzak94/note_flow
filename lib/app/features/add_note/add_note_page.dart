@@ -66,6 +66,8 @@ class _AddNotePageState extends State<AddNotePage> {
 
   @override
   Widget build(BuildContext context) {
+    final dw = MediaQuery.of(context).size.width;
+
     titleController.addListener(() => setState(() {}));
     descriptionController.addListener(() => setState(() {}));
 
@@ -196,7 +198,7 @@ class _AddNotePageState extends State<AddNotePage> {
                         icon: Icon(
                           Icons.color_lens_outlined,
                           color: noteColor,
-                          size: 30,
+                          size: dw * 0.075,
                         ),
                       ),
                       SaveTaskButton(

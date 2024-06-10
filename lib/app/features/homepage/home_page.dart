@@ -24,6 +24,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final dw = MediaQuery.of(context).size.width;
+
     _controller.addListener(() => setState(() {}));
     return GestureDetector(
       onTap: () {
@@ -41,7 +43,10 @@ class _HomePageState extends State<HomePage> {
           title: Text(
             'Notes',
             style: GoogleFonts.lato(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 35),
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: dw * 0.089,
+            ),
           ),
           centerTitle: true,
           actions: [

@@ -29,10 +29,13 @@ class SaveTaskButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dw = MediaQuery.of(context).size.width;
+    final dh = MediaQuery.of(context).size.height;
+
     return Padding(
-      padding: const EdgeInsets.only(bottom: 30, top: 30),
+      padding: const EdgeInsets.symmetric(vertical: 30),
       child: SizedBox(
-        height: 50,
+        height: dh * 0.06,
         width: double.infinity,
         child: ElevatedButton(
           onPressed: () async {
@@ -74,8 +77,11 @@ class SaveTaskButton extends StatelessWidget {
           ),
           child: Text(
             widget.noteModel == null ? 'Save' : 'Edit',
-            style: const TextStyle(
-                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: dw * 0.052,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

@@ -32,14 +32,16 @@ class NoteWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dw = MediaQuery.of(context).size.width;
+
     final titleStyle = GoogleFonts.lato(
       color: Colors.black,
-      fontSize: 20,
+      fontSize: dw * 0.051,
       fontWeight: FontWeight.w800,
     );
-    const descriptionStyle = TextStyle(
+    final descriptionStyle = TextStyle(
       color: Colors.black,
-      fontSize: 15,
+      fontSize: dw * 0.038,
       fontWeight: FontWeight.w400,
     );
     final highlightedStyle = titleStyle.copyWith(color: Colors.red);

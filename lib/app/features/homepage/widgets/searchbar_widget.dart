@@ -12,12 +12,14 @@ class SearchBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dh = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
         Container(
           color: Colors.transparent,
           width: double.infinity,
-          height: 75,
+          height: dh * 0.086,
         ),
         Container(
           decoration: const BoxDecoration(
@@ -28,7 +30,7 @@ class SearchBarWidget extends StatelessWidget {
             color: Color(0xFF63686B),
           ),
           width: double.infinity,
-          height: 45,
+          height: dh * 0.06,
         ),
         Positioned(
           top: 20,
