@@ -146,22 +146,30 @@ class _AddNotePageState extends State<AddNotePage> {
                   ),
                 ),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     children: [
-                      const Expanded(
+                      Expanded(
                         flex: 1,
                         child: SizedBox(),
                       ),
-                      const TitleWidget(),
-                      TitleTextFieldWidget(titleController: titleController),
-                      NoteTextFormFieldWidget(
-                          descriptionController: descriptionController),
                       Expanded(
-                        flex: 2,
+                        flex: 5,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const TitleWidget(),
+                            TitleTextFieldWidget(
+                                titleController: titleController),
+                            NoteTextFormFieldWidget(
+                                descriptionController: descriptionController),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             TagWidget(
                               tagTitle: 'Inspiration',
@@ -190,26 +198,26 @@ class _AddNotePageState extends State<AddNotePage> {
                                 });
                               },
                             ),
+                            IconButton(
+                              onPressed: () => pickColor(context),
+                              icon: Icon(
+                                Icons.color_lens_outlined,
+                                color: noteColor,
+                                size: dw * 0.075,
+                              ),
+                            ),
+                            SaveTaskButton(
+                              titleController: titleController,
+                              descriptionController: descriptionController,
+                              widget: widget,
+                              isPinned: isPinned,
+                              noteColor: noteColor,
+                              inspirationTag: _inspirationTag,
+                              personalTag: _personalTag,
+                              workTag: _workTag,
+                            ),
                           ],
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () => pickColor(context),
-                        icon: Icon(
-                          Icons.color_lens_outlined,
-                          color: noteColor,
-                          size: dw * 0.075,
-                        ),
-                      ),
-                      SaveTaskButton(
-                        titleController: titleController,
-                        descriptionController: descriptionController,
-                        widget: widget,
-                        isPinned: isPinned,
-                        noteColor: noteColor,
-                        inspirationTag: _inspirationTag,
-                        personalTag: _personalTag,
-                        workTag: _workTag,
                       ),
                     ],
                   ),

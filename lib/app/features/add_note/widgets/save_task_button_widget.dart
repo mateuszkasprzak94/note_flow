@@ -33,7 +33,7 @@ class SaveTaskButton extends StatelessWidget {
     final dh = MediaQuery.of(context).size.height;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30),
+      padding: const EdgeInsets.only(bottom: 20, top: 10),
       child: SizedBox(
         height: dh * 0.06,
         width: double.infinity,
