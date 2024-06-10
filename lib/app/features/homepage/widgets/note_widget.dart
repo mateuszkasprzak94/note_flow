@@ -58,18 +58,19 @@ class NoteWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: RichText(
-                    text: highlightOccurrences(noteModel.title, searchTerm,
-                        titleStyle, highlightedStyle),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+              if (noteModel.title.isNotEmpty)
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: RichText(
+                      text: highlightOccurrences(noteModel.title, searchTerm,
+                          titleStyle, highlightedStyle),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
-              ),
               RichText(
                 text: highlightOccurrences(noteModel.description, searchTerm,
                     descriptionStyle, highlightedStyle),

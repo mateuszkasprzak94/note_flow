@@ -42,7 +42,7 @@ class SaveTaskButton extends StatelessWidget {
             final title = titleController.text;
             final description = descriptionController.text;
 
-            if (title.isEmpty || description.isEmpty) {
+            if (description.isEmpty) {
               return;
             }
 
