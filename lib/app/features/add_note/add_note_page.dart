@@ -103,6 +103,7 @@ class _AddNotePageState extends State<AddNotePage> {
               extendBodyBehindAppBar: true,
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
+                scrolledUnderElevation: 0,
                 iconTheme: const IconThemeData(color: Colors.white),
                 backgroundColor: Colors.transparent,
                 centerTitle: true,
@@ -149,7 +150,7 @@ class _AddNotePageState extends State<AddNotePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     children: [
-                      Expanded(
+                      const Expanded(
                         flex: 1,
                         child: SizedBox(),
                       ),
