@@ -44,7 +44,7 @@ flutter run
 ![test](https://github.com/mateuszkasprzak94/note_flow/assets/142491717/1dc23fcb-618b-418a-a95b-4971d73313a1)
 
 
-# <p align="center">💻build with:</p>
+# <p align="center">💻Build with:</p>
 
 *   Flutter
 *   Dart
